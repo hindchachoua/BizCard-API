@@ -22,7 +22,6 @@ class CardController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'url' => 'required',
             'phonenumber' => 'required',
             'email' => 'required',
             'address' => 'required',
