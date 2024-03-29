@@ -18,4 +18,8 @@ class Card extends Model
         'website',
         'address',
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }
