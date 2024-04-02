@@ -87,7 +87,7 @@ class AuthController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="User login successful",
+     *         description="User login successfully",
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="integer", example=200),
      *             @OA\Property(property="access_token", type="string")
@@ -112,7 +112,7 @@ class AuthController extends Controller
         $user = User::where('email', $fields['email'])->first();
         if(!$user || !Hash::check($fields['password'], $user->password)){
             return response([
-                'message' => 'Bad creds'
+                'message' => 'User not found'
             ], 401);
         }
 
@@ -124,6 +124,7 @@ class AuthController extends Controller
         ];
 
         return response($response, 200);
+
     }
 
      /**

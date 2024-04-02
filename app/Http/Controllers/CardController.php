@@ -18,6 +18,7 @@ class CardController extends Controller
      *     path="/api/cards",
      *     summary="Get all cards",
      *     tags={"Cards"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Returns all cards",
@@ -48,13 +49,13 @@ class CardController extends Controller
  *     path="/api/cards/add",
  *     summary="Create a new card",
  *     tags={"Cards"},
+ *     security={{"bearerAuth":{}}},
  *     @OA\RequestBody(
  *         required=true,
  *         @OA\JsonContent(
- *             required={"logo", "title", "phonenumber", "email"},
- *             @OA\Property(property="logo", type="string", format="binary"),
+ *             required={ "title", "description" , "phonenumber", "email"},
  *             @OA\Property(property="title", type="string"),
- *             @OA\Property(property="slogan", type="string"),
+ *             @OA\Property(property="description", type="string"),
  *             @OA\Property(property="phonenumber", type="string", example="1234567890"),
  *             @OA\Property(property="email", type="string", format="email"),
  *             @OA\Property(property="address", type="string"),
@@ -100,6 +101,7 @@ class CardController extends Controller
      *     path="/api/cards/{id}",
      *     summary="Get a card by ID",
      *     tags={"Cards"},
+     * security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -135,6 +137,7 @@ class CardController extends Controller
  *     path="/api/cards/{id}/update",
  *     summary="Update a card",
  *     tags={"Cards"},
+ * security={{"bearerAuth":{}}},
  *     @OA\Parameter(
  *         name="id",
  *         in="path",
@@ -145,10 +148,9 @@ class CardController extends Controller
  *     @OA\RequestBody(
  *         required=true,
  *         @OA\JsonContent(
- *             required={"logo", "title", "phonenumber", "email"},
- *             @OA\Property(property="logo", type="string", format="binary"),
+ *             required={"title","description" ,"phonenumber", "email"},
  *             @OA\Property(property="title", type="string"),
- *             @OA\Property(property="slogan", type="string"),
+ *             @OA\Property(property="description", type="string"),
  *             @OA\Property(property="phonenumber", type="string", example="1234567890"),
  *             @OA\Property(property="email", type="string", format="email"),
  *             @OA\Property(property="address", type="string"),
@@ -176,6 +178,7 @@ class CardController extends Controller
     public function update(Request $request, string $id)
     {
         $card = Card::find($id);
+        //dd($card);
         $card->update($request->all());
         return $card;
     }
@@ -184,6 +187,7 @@ class CardController extends Controller
      *     path="/api/cards/{id}/destroy",
      *     summary="Delete a card",
      *     tags={"Cards"},
+     * security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -211,6 +215,11 @@ class CardController extends Controller
      */
     public function destroy(string $id)
     {
-        return Card::destroy($id);
+        if (Card::find($id)) {
+            Card::destroy($id);
+            return response()->json(['message' => 'Card deleted successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Error, Not Found!'], 404);
+        }
     }
 }
