@@ -44,6 +44,11 @@ class CardController extends Controller
         return $cards;
     }
 
+    public function getcardwithuser(string $name){
+        $cards = User::where('name', $name)->first()->cards;
+        return $cards;
+    }
+
 /**
  * @OA\Post(
  *     path="/api/cards/add",
