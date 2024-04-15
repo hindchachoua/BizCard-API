@@ -40,7 +40,8 @@ class CardController extends Controller
     public function index()
     {
       
-        $cards =   Auth::user()->cards;
+        // $cards =   Auth::user()->cards;
+        $cards = Card::all();
         return $cards;
     }
 
