@@ -12,10 +12,7 @@ Route::post('/login', [AuthController::class, 'loginpost'])->name('loginpost');
 
 // Route::get('/cards/{name}', [CardController::class, 'getcardwithuser']);
 
-    Route::get('/cards', [CardController::class, 'index']);
-    Route::post('/cards/add', [CardController::class, 'store']);
-    Route::put('/cards/{id}', [CardController::class, 'update']);
-    Route::delete('/cards/{id}', [CardController::class, 'destroy']);
+
 
 Route::get('/cards/{id}', [CardController::class, 'show']); 
 // Route::apiResource('/cards', CardController::class);
@@ -26,6 +23,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             'currentToken' => $request->user()->currentAccessToken()
         ];
     });
+    Route::get('/cards', [CardController::class, 'index']);
+    Route::post('/cards/add', [CardController::class, 'store']);
+    Route::put('/cards/{id}', [CardController::class, 'update']);
+    Route::delete('/cards/{id}', [CardController::class, 'destroy']);
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
